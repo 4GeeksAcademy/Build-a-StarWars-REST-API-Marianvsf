@@ -108,13 +108,72 @@ def get_one_user(user_id):
 @app.route('/favorite/user/<int:user_id>/character/<int:character_id>', methods=['POST'])
 def add_favorite_character(user_id, character_id):
 
-    is_favorite = FavoriteCharacter.query.filter_by(user_id = user_id, character_id = character_id).first()
-    if is_favorite:
-        return jsonify({"error": "Favorite alredy exist"}), 409
-    new_favorite = FavoriteCharacter(user_id = user_id, character_id = character_id)
-    db.session.add(new_favorite)
-    db.session.commit()
-    return jsonify(new_favorite.serialize()), 200
+    try:
+        # Validar usuario y Id del character
+        if not isinstance(user_id, int) or not isinstance(character_id, int):
+            return jsonify({"error": "Invalid user or character ID"}), 400
+        # verificar si el character ya existe como favorito
+        is_favorite = FavoriteCharacter.query.filter_by(user_id=user_id, character_id=character_id).first()
+        if is_favorite:
+            return jsonify({"error": "Character is already a favorite"}), 409
+        # crear un FavoriteCharacter object nuevo
+        new_favorite = FavoriteCharacter(user_id=user_id, character_id=character_id)
+        # agregar el favorito nuevo a la base de datos y hacer el commit con los cambios
+        db.session.add(new_favorite)
+        db.session.commit()
+        # retornar una respuesta JSON indicando éxito
+        return jsonify({"message": "Character added to favorites successfully"}), 201
+
+    except Exception as e:
+        # Manejar los errores en la base de datos y otras excepciones 
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/favorite/user/<int:user_id>/planet/<int:planet_id>', methods=['POST'])
+def add_favorite_planet(user_id, planet_id):
+
+    try:
+        # Validar usuario y Id del planet
+        if not isinstance(user_id, int) or not isinstance(planet_id, int):
+            return jsonify({"error": "Invalid user or planet ID"}), 400
+        # verificar si el planet ya existe como favorito
+        is_favorite = FavoritePlanet.query.filter_by(user_id=user_id, planet_id=planet_id).first()
+        if is_favorite:
+            return jsonify({"error": "planet is already a favorite"}), 409
+        # crear un Favoriteplanet object nuevo
+        new_favorite = FavoritePlanet(user_id=user_id, planet_id=planet_id)
+        # agregar el favorito nuevo a la base de datos y hacer el commit con los cambios
+        db.session.add(new_favorite)
+        db.session.commit()
+        # retornar una respuesta JSON indicando éxito
+        return jsonify({"message": "Planet added to favorites successfully"}), 201
+
+    except Exception as e:
+        # Manejar los errores en la base de datos y otras excepciones 
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/favorite/user/<int:user_id>/vehicle/<int:vehicle_id>', methods=['POST'])
+def add_favorite_vehicle(user_id, vehicle_id):
+
+    try:
+        # Validar usuario y Id del vehicle
+        if not isinstance(user_id, int) or not isinstance(vehicle_id, int):
+            return jsonify({"error": "Invalid user or vehicle ID"}), 400
+        # verificar si el vehicle ya existe como favorito
+        is_favorite = FavoriteVehicle.query.filter_by(user_id=user_id, vehicle_id=vehicle_id).first()
+        if is_favorite:
+            return jsonify({"error": "Vehicle is already a favorite"}), 409
+        # crear un Favoritevehicle object nuevo
+        new_favorite = FavoriteVehicle(user_id=user_id, vehicle_id=vehicle_id)
+        # agregar el favorito nuevo a la base de datos y hacer el commit con los cambios
+        db.session.add(new_favorite)
+        db.session.commit()
+        # retornar una respuesta JSON indicando éxito
+        return jsonify({"message": "Vehicle added to favorites successfully"}), 201
+
+    except Exception as e:
+        # Manejar los errores en la base de datos y otras excepciones 
+        return jsonify({"error": str(e)}), 500
 
 
 
