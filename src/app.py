@@ -175,6 +175,60 @@ def add_favorite_vehicle(user_id, vehicle_id):
         # Manejar los errores en la base de datos y otras excepciones 
         return jsonify({"error": str(e)}), 500
 
+@app.route('/favorite/user/<int:user_id>/character/<int:character_id>', methods=['DELETE'])
+def delete_favorite_character(user_id, character_id):
+
+    try:
+        is_favorite = FavoriteCharacter.query.filter_by(user_id=user_id, character_id=character_id).first()
+        if not is_favorite:
+            return jsonify({"error": "Character not found"}), 409
+        # borrar el favorito nuevo a la base de datos y hacer el commit con los cambios
+        db.session.delete(is_favorite)
+        db.session.commit()
+        # retornar una respuesta JSON indicando éxito
+        return jsonify({"message": "character deleted from favorites successfully"}), 201
+
+    except Exception as e:
+        # Manejar los errores en la base de datos y otras excepciones 
+        return jsonify({"error": str(e)}), 500
+
+
+
+@app.route('/favorite/user/<int:user_id>/planet/<int:planet_id>', methods=['DELETE'])
+def delete_favorite_planet(user_id, planet_id):
+
+    try:
+        is_favorite = FavoritePlanet.query.filter_by(user_id=user_id, planet_id=planet_id).first()
+        if not is_favorite:
+            return jsonify({"error": "planet not found"}), 409
+        # borrar el favorito nuevo a la base de datos y hacer el commit con los cambios
+        db.session.delete(is_favorite)
+        db.session.commit()
+        # retornar una respuesta JSON indicando éxito
+        return jsonify({"message": "planet deleted from favorites successfully"}), 201
+
+    except Exception as e:
+        # Manejar los errores en la base de datos y otras excepciones 
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/favorite/user/<int:user_id>/vehicle/<int:vehicle_id>', methods=['DELETE'])
+def delete_favorite_vehicle(user_id, vehicle_id):
+
+    try:
+        is_favorite = FavoriteVehicle.query.filter_by(user_id=user_id, vehicle_id=vehicle_id).first()
+        if not is_favorite:
+            return jsonify({"error": "Vehicle not found"}), 409
+        # borrar el favorito nuevo a la base de datos y hacer el commit con los cambios
+        db.session.delete(is_favorite)
+        db.session.commit()
+        # retornar una respuesta JSON indicando éxito
+        return jsonify({"message": "Vehicle deleted from favorites successfully"}), 201
+
+    except Exception as e:
+        # Manejar los errores en la base de datos y otras excepciones 
+        return jsonify({"error": str(e)}), 500
+
 
 
 
