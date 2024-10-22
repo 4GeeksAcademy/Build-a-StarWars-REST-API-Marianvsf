@@ -36,7 +36,7 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/character', methods=['GET'])
+@app.route('/people', methods=['GET'])
 def get_all_characters():
 
     all_characters = Character.query.all()
@@ -45,7 +45,7 @@ def get_all_characters():
     serialized_characters = [character.serialize() for character in all_characters]
     return jsonify(serialized_characters), 200
 
-@app.route('/character/<int:character_id>', methods=['GET'])
+@app.route('/people/<int:character_id>', methods=['GET'])
 def get_one_character(character_id):
 
     character = Character.query.get(character_id)
@@ -53,7 +53,7 @@ def get_one_character(character_id):
         return jsonify({"error": "Character not found"}), 404
     return jsonify(character.serialize()), 200
 
-@app.route('/planet', methods=['GET'])
+@app.route('/planets', methods=['GET'])
 def get_all_planets():
 
     all_planets = Planet.query.all()
@@ -62,7 +62,7 @@ def get_all_planets():
     serialized_planets = [planet.serialize() for planet in all_planets]
     return jsonify(serialized_planets), 200
 
-@app.route('/planet/<int:planet_id>', methods=['GET'])
+@app.route('/planets/<int:planet_id>', methods=['GET'])
 def get_one_planet(planet_id):
 
     planet = Planet.query.get(planet_id)
@@ -70,7 +70,7 @@ def get_one_planet(planet_id):
         return jsonify({"error": "Planet not found"}), 404
     return jsonify(planet.serialize()), 200
 
-@app.route('/vehicle', methods=['GET'])
+@app.route('/vehicles', methods=['GET'])
 def get_all_vehicles():
 
     all_vehicles = Vehicle.query.all()
@@ -79,7 +79,7 @@ def get_all_vehicles():
     serialized_vehicles = [vehicle.serialize() for vehicle in all_vehicles]
     return jsonify(serialized_vehicles), 200
 
-@app.route('/vehicle/<int:vehicle_id>', methods=['GET'])
+@app.route('/vehicles/<int:vehicle_id>', methods=['GET'])
 def get_one_vehicle(vehicle_id):
 
     vehicle = Vehicle.query.get(vehicle_id)
@@ -105,7 +105,8 @@ def get_one_user(user_id):
         return jsonify({"error": "User not found"}), 404
     return jsonify(user.serialize_favorites()), 200
 
-@app.route('/favorite/user/<int:user_id>/character/<int:character_id>', methods=['POST'])
+
+@app.route('/favorite/user/<int:user_id>/people/<int:character_id>', methods=['POST'])
 def add_favorite_character(user_id, character_id):
 
     try:
@@ -128,7 +129,7 @@ def add_favorite_character(user_id, character_id):
         # Manejar los errores en la base de datos y otras excepciones 
         return jsonify({"error": str(e)}), 500
 
-@app.route('/favorite/user/<int:user_id>/planet/<int:planet_id>', methods=['POST'])
+@app.route('/favorite/user/<int:user_id>/planets/<int:planet_id>', methods=['POST'])
 def add_favorite_planet(user_id, planet_id):
 
     try:
@@ -152,7 +153,7 @@ def add_favorite_planet(user_id, planet_id):
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/favorite/user/<int:user_id>/vehicle/<int:vehicle_id>', methods=['POST'])
+@app.route('/favorite/user/<int:user_id>/vehicles/<int:vehicle_id>', methods=['POST'])
 def add_favorite_vehicle(user_id, vehicle_id):
 
     try:
@@ -175,7 +176,7 @@ def add_favorite_vehicle(user_id, vehicle_id):
         # Manejar los errores en la base de datos y otras excepciones 
         return jsonify({"error": str(e)}), 500
 
-@app.route('/favorite/user/<int:user_id>/character/<int:character_id>', methods=['DELETE'])
+@app.route('/favorite/user/<int:user_id>/people/<int:character_id>', methods=['DELETE'])
 def delete_favorite_character(user_id, character_id):
 
     try:
@@ -194,7 +195,7 @@ def delete_favorite_character(user_id, character_id):
 
 
 
-@app.route('/favorite/user/<int:user_id>/planet/<int:planet_id>', methods=['DELETE'])
+@app.route('/favorite/user/<int:user_id>/planets/<int:planet_id>', methods=['DELETE'])
 def delete_favorite_planet(user_id, planet_id):
 
     try:
@@ -212,7 +213,7 @@ def delete_favorite_planet(user_id, planet_id):
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/favorite/user/<int:user_id>/vehicle/<int:vehicle_id>', methods=['DELETE'])
+@app.route('/favorite/user/<int:user_id>/vehicles/<int:vehicle_id>', methods=['DELETE'])
 def delete_favorite_vehicle(user_id, vehicle_id):
 
     try:
